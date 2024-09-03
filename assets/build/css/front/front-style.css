@@ -1,0 +1,80 @@
+.atc-product__actions-button {
+    width: 108px;
+    text-align: center;
+    padding: 14px 16px;
+    line-height: 32px;
+    box-sizing: border-box;
+}
+
+
+
+
+.atc-quantity-roller__roller {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    min-width: 110px;
+}
+
+.atc-quantity-roller__button--increase {
+    background-color: #036666;
+    color: white;
+}
+
+.atc-quantity-roller__button {
+    height: 40px;
+    width: 40px;
+    /* background: 0 0; */
+    /* background-color: rgba(0, 0, 0, 0); */
+    border: none;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: none;
+    text-shadow: none;
+    padding: 0;
+    box-sizing: content-box;
+    position: relative;
+    /* font-size: 0; */
+    /* text-indent: 250%; */
+    overflow: hidden;
+    transition: all .15s ease-out;
+}
+
+.atc-product__actions-button {
+    text-align: center;
+    line-height: 32px;
+}
+
+.atc-quantity-roller__button--decrease {
+    border: 1px solid #e0e0e0;
+}
+
+.atc-button.atc-product__add-to-order {
+    color: #fff;
+    background-color: #036666;
+    border-color: #036666;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    width: 106px;
+    height: 38px;
+    font-family: 'Sahel';
+}
+
+
+.atc-quantity-roller__button:hover,
+.atc-quantity-roller__button:visited {
+    background-color: #c7d4db;
+    color: #fff;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    text-shadow: none;
+    outline: none;
+}
+
+.atc-button.atc-product__add-to-order:hover {
+    background-color: var(--atc-main) !important;
+    border-color: var(--atc-main) !important;
+    color: #fff !important;
+}
