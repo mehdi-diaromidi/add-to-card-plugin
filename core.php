@@ -37,6 +37,7 @@ if (class_exists('AddToCart\Plugin')) {
 
 require_once  'view\front\add-to-card-layout.php';
 // include_once  '_inc\like\add.php';
+include_once  '_inc\send_order.php';
 
 register_activation_hook(__FILE__, [$the_plugin, 'activate']);
 register_deactivation_hook(__FILE__, [$the_plugin, 'deactivate']);
