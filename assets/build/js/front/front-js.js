@@ -22,11 +22,17 @@ jQuery(document).ready(function ($) {
             // استخراج اطلاعات از DOM
             let productTitle = productElement.closest('.elementor-widget-wrap').find('.product_title .elementor-widget-container').text().trim();
             let productPrice = productElement.closest('.elementor-widget-wrap').find('.product_special_price .elementor-widget-container').text().trim() || productElement.closest('.elementor-widget-wrap').find('.product_price_normal .elementor-widget-container').text().trim();
-            let productImageSrc = productElement.closest('.elementor-column').find('.product_picture img').attr('src');
+            // let productImageElement = productElement.closest('.elementor-widget-wrap').find('.product_picture img');
+            // let productImageSrc = productImageElement.attr('src');
+
+            // if (!productImageSrc) {
+            //     console.error("تصویر محصول پیدا نشد!", item.product_id);
+            //     productImageSrc = 'مسیر پیش‌فرض تصویر'; // مسیر پیش‌فرض تصویر را برای محصولات بدون تصویر قرار دهید
+            // }
 
             let productHtml = `
                 <div class="cart-item" style="display: flex; align-items: center; margin-bottom: 10px;">
-                    <div style="flex: 30%;"><img src="${productImageSrc}" style="width: 100%; border-radius: 8px;"></div>
+                    <div style="flex: 30%;"><img src="" style="width: 100%; border-radius: 8px;"></div>
                     <div style="flex: 20%;">${productTitle}</div>
                     <div style="flex: 20%;">${productPrice}</div>
                     <div style="flex: 30%;" data-product-id="${item.product_id}">
@@ -42,7 +48,11 @@ jQuery(document).ready(function ($) {
 
     function updateQuantity(productId, action) {
         let $quantityField = $(`.atc-quantity-roller__quantity[data-atc-product-id="${productId}"]`);
-        let currentQuantity = parseInt($quantityField.text());
+        let currentQuantity = parseInt($quantityField.text(), 10); // تبدیل به عدد صحیح
+
+        if (isNaN(currentQuantity)) {
+            currentQuantity = 0; // اطمینان از اینکه currentQuantity عددی معتبر است
+        }
 
         if (action === 'increase') {
             currentQuantity += 1;
@@ -65,7 +75,7 @@ jQuery(document).ready(function ($) {
         } else if (currentQuantity > 0) {
             cartData.push({
                 product_id: productId,
-                currentQuantity: currentQuantity
+                product_quantity: currentQuantity
             });
         }
 
@@ -90,7 +100,7 @@ jQuery(document).ready(function ($) {
     renderCart();
 
     // مدیریت کلیک روی دکمه‌ها
-    $('.atc-quantity-roller__button').on('click', function () {
+    $(document).on('click', '.atc-quantity-roller__button', function () {
         let $button = $(this);
         let productId = $button.data('atc-product-id');
         let action = $button.data('type');
