@@ -2,10 +2,8 @@
 
 include_once ADD_TO_CART_PLUGIN_DIR . '/class/Message.php';
 include_once ADD_TO_CART_PLUGIN_DIR . '/class/SecurityValidator.php';
-include_once ADD_TO_CART_PLUGIN_DIR . '/class/DatabasehandlerUser.php';
 include_once ADD_TO_CART_PLUGIN_DIR . '/class/OrderHandler.php';
 include_once ADD_TO_CART_PLUGIN_DIR . '/PopupRenderer.php';
-
 
 function wp_atc_register_order(): void
 {
@@ -31,10 +29,11 @@ function wp_atc_register_order(): void
     $order_id = $order_handler->create_order_post($order_title);
 
     $order_total_price = 0;
+    $order_items = [];
 
-    foreach ($cart_data as $item) {
+    foreach ($cart_data as $index => $item) {
         $product_id = $item['product_id'];
-        $product_quantity = $item['currentQuantity'];
+        $product_quantity = isset($item['currentQuantity']) && $item['currentQuantity'] !== '' ? (int)$item['currentQuantity'] : 1;
 
         $product_details = $order_handler->get_product_details($product_id);
 
@@ -49,9 +48,15 @@ function wp_atc_register_order(): void
 
         $order_total_price += $price * $product_quantity;
 
-        // ذخیره نام و مقدار هر محصول در متا‌دیتاها
-        $order_handler->save_order_item_details($product_details['product_name'], $product_quantity);
+        // اضافه کردن جزئیات محصول به آرایه order_items
+        $order_items["item-$index"] = [
+            'product' => (string)$product_id,
+            'product_quantity' => (string)$product_quantity,
+        ];
     }
+
+    // سریالایز کردن و ذخیره اطلاعات مربوط به محصولات در متا‌دیتاها
+    $order_handler->update_order_meta('order_details_items', $order_items);
 
     // ذخیره اطلاعات مربوط به تعداد کل آیتم‌ها و قیمت نهایی سفارش
     $order_handler->update_order_meta('order_details_quantity', $cart_item_count);
@@ -60,8 +65,6 @@ function wp_atc_register_order(): void
     // ارسال پاسخ به ایجکس
     Message::wp_atc_send_json_message('success', 'سفارش با موفقیت ثبت شد!', 200);
 }
-
-
 
 add_action('wp_ajax_wp_atc_register_order', 'wp_atc_register_order');
 add_action('wp_ajax_nopriv_wp_atc_register_order', 'wp_atc_register_order');

@@ -19,14 +19,23 @@ defined('ABSPATH') || exit;
 
 require_once  'vendor/autoload.php';
 
-// function register_custom_elementor_widget($widgets_manager)
+// function register_product_title_widget($widgets_manager)
 // {
 
-// 	require_once(__DIR__ . '/add-to-cart-widget.php');
+// 	require_once(__DIR__ . '/product-title-widget.php');
 
-// 	$widgets_manager->register(new \Elementor_Add_To_Cart_Widget());
+// 	$widgets_manager->register(new \Product_Title_Widget());
 // }
-// add_action('elementor/widgets/register', 'register_custom_elementor_widget');
+// add_action('elementor/widgets/register', 'register_product_title_widget');
+
+// function register_custom_loop_grid_widget($widgets_manager)
+// {
+// 	require_once(__DIR__ . '/custom-loop-grid-widget.php');
+// 	$widgets_manager->register(new \Custom_Loop_Grid_Widget());
+// }
+// add_action('elementor/widgets/register', 'register_custom_loop_grid_widget');
+
+
 
 
 use AddToCart\Plugin;
@@ -35,7 +44,7 @@ if (class_exists('AddToCart\Plugin')) {
 	$the_plugin = new Plugin();
 }
 
-require_once  'view\front\add-to-card-layout.php';
+require_once  'view\front\add-to-cart-layout.php';
 // include_once  '_inc\like\add.php';
 include_once  '_inc\send_order.php';
 
