@@ -46,16 +46,32 @@ class Assets
     private function enqueue_scripts($scripts, $prefix)
     {
         foreach ($scripts as $handle => $data) {
-            wp_enqueue_script(
-                $prefix . '-' . $handle,
-                $data['src'],
-                $data['dependencies'] ?? [],
-                $data['version'],
-                $data['in_footer'] ?? true
-            );
+            if ($data['page'] != '') {
+                if (is_page($data['page'])) {
+                    wp_enqueue_script(
+                        $prefix . '-' . $handle,
+                        $data['src'],
+                        $data['dependencies'] ?? [],
+                        $data['version'],
+                        $data['in_footer'] ?? true
+                    );
 
-            if (!empty($data['localize_script'])) {
-                wp_localize_script($prefix . '-' . $handle, 'atc_plugin_' . $handle, $data['localize_script']);
+                    if (!empty($data['localize_script'])) {
+                        wp_localize_script($prefix . '-' . $handle, 'atc_plugin_' . $handle, $data['localize_script']);
+                    }
+                }
+            } else {
+                wp_enqueue_script(
+                    $prefix . '-' . $handle,
+                    $data['src'],
+                    $data['dependencies'] ?? [],
+                    $data['version'],
+                    $data['in_footer'] ?? true
+                );
+
+                if (!empty($data['localize_script'])) {
+                    wp_localize_script($prefix . '-' . $handle, 'atc_plugin_' . $handle, $data['localize_script']);
+                }
             }
         }
     }

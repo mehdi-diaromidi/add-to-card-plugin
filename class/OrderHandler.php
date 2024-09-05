@@ -13,7 +13,7 @@ class OrderHandler
     {
         $this->order_id = wp_insert_post([
             'post_title'  => $order_title,
-            'post_type'   => 'menu_orders',
+            'post_type'   => 'atc_menu_orders',
             'post_status' => 'publish',
         ]);
 
@@ -24,6 +24,7 @@ class OrderHandler
     {
         update_post_meta($this->order_id, $meta_key, $meta_value);
     }
+
     public function add_order_meta(string $meta_key, $meta_value): void
     {
         add_post_meta($this->order_id, $meta_key, $meta_value);
@@ -40,18 +41,15 @@ class OrderHandler
         $product_in_stock = $this->get_post_meta($product_id, 'product_in_stock');
         $product_price_special = $this->get_post_meta($product_id, 'product_price_special');
         $product_price_normal = $this->get_post_meta($product_id, 'product_price_normal');
+        $product_category_terms = get_the_terms($product_id, 'product_categories');
+        $product_category = !empty($product_category_terms) ? $product_category_terms[0]->name : '';
 
         return [
             'product_name' => $product_name,
             'product_in_stock' => $product_in_stock,
             'product_price_special' => $product_price_special,
             'product_price_normal' => $product_price_normal,
+            'product_category' => $product_category,
         ];
-    }
-
-    public function save_order_item_details(string $product_name, int $product_quantity): void
-    {
-        $this->add_order_meta("order_details_items_product_name", $product_name);
-        $this->add_order_meta("order_details_items_product_quantity", $product_quantity);
     }
 }
