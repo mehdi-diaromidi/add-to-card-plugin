@@ -4,7 +4,20 @@ jQuery(document).ready(function ($) {
 
     // تنظیم مقادیر اولیه موجودی‌ها در DOM
     function updateProductQuantity(productId, quantity) {
-        $(`.atc-quantity-roller__quantity[data-atc-product-id="${productId}"]`).text(quantity);
+        let $quantityField = $(`.atc-quantity-roller-quantity[data-atc-product-id="${productId}"]`);
+        let $decreaseButton = $(`.atc-quantity-roller-button-decrease[data-atc-product-id="${productId}"]`);
+
+        // به‌روزرسانی مقدار موجودی
+        $quantityField.text(quantity);
+
+        // استفاده از انیمیشن‌های jQuery برای محو و نمایش عناصر
+        if (quantity > 0) {
+            $quantityField.stop(true).fadeIn(300);
+            $decreaseButton.stop(true).fadeIn(300);
+        } else {
+            $quantityField.stop(true).fadeOut(300);
+            $decreaseButton.stop(true).fadeOut(300);
+        }
     }
 
     function updateItemCount(count) {
@@ -12,42 +25,29 @@ jQuery(document).ready(function ($) {
         $('.atc-item-count').text(count);
     }
 
-    function renderCart() {
-        let cartContainer = $('.cart-container'); // فرض بر این است که یک div با کلاس cart-container برای نمایش سبد خرید وجود دارد
-        cartContainer.empty();
+    // فراخوانی به‌روزرسانی تعداد آیتم‌ها در ابتدای بارگذاری
+    updateItemCount(cartData.reduce((acc, item) => acc + item.currentQuantity, 0));
 
-        cartData.forEach(item => {
-            let productElement = $(`.atc-quantity-roller__quantity[data-atc-product-id="${item.product_id}"]`);
+    // تنظیم مقادیر اولیه موجودی‌ها در DOM
+    $('.atc-quantity-roller-quantity').each(function () {
+        let productId = $(this).data('atc-product-id');
+        let productData = cartData.find(item => item.product_id === productId);
+        let quantity = productData ? productData.currentQuantity : 0;
+        updateProductQuantity(productId, quantity);
+    });
 
-            // استخراج اطلاعات از DOM
-            let productTitle = productElement.closest('.elementor-widget-wrap').find('.product_title .elementor-widget-container').text().trim();
-            let productPrice = productElement.closest('.elementor-widget-wrap').find('.product_special_price .elementor-widget-container').text().trim() || productElement.closest('.elementor-widget-wrap').find('.product_price_normal .elementor-widget-container').text().trim();
-            // let productImageElement = productElement.closest('.elementor-widget-wrap').find('.product_picture img');
-            // let productImageSrc = productImageElement.attr('src');
+    // مدیریت کلیک روی دکمه‌ها
+    $(document).on('click', '.atc-quantity-roller-button', function () {
+        let $button = $(this);
+        let productId = $button.data('atc-product-id');
+        let action = $button.data('type');
 
-            // if (!productImageSrc) {
-            //     console.error("تصویر محصول پیدا نشد!", item.product_id);
-            //     productImageSrc = 'مسیر پیش‌فرض تصویر'; // مسیر پیش‌فرض تصویر را برای محصولات بدون تصویر قرار دهید
-            // }
-
-            let productHtml = `
-                <div class="cart-item" style="display: flex; align-items: center; margin-bottom: 10px;">
-                    <div style="flex: 30%;"><img src="" style="width: 100%; border-radius: 8px;"></div>
-                    <div style="flex: 20%;">${productTitle}</div>
-                    <div style="flex: 20%;">${productPrice}</div>
-                    <div style="flex: 30%;" data-product-id="${item.product_id}">
-                        <button class="atc-quantity-roller__button atc-quantity-roller__button--increase" data-type="increase" data-atc-product-id="${item.product_id}">+</button>
-                        <span class="atc-quantity-roller__quantity" contenteditable="true" inputmode="numeric" data-atc-product-id="${item.product_id}">${item.currentQuantity}</span>
-                        <button class="atc-quantity-roller__button atc-quantity-roller__button--decrease" data-type="decrease" data-atc-product-id="${item.product_id}">-</button>
-                    </div>
-                </div>`;
-
-            cartContainer.append(productHtml);
-        });
-    }
+        // به‌روزرسانی مقدار موجودی بر اساس عمل مورد نظر (افزایش/کاهش)
+        updateQuantity(productId, action);
+    });
 
     function updateQuantity(productId, action) {
-        let $quantityField = $(`.atc-quantity-roller__quantity[data-atc-product-id="${productId}"]`);
+        let $quantityField = $(`.atc-quantity-roller-quantity[data-atc-product-id="${productId}"]`);
         let currentQuantity = parseInt($quantityField.text(), 10); // تبدیل به عدد صحیح
 
         if (isNaN(currentQuantity)) {
@@ -75,37 +75,14 @@ jQuery(document).ready(function ($) {
         } else if (currentQuantity > 0) {
             cartData.push({
                 product_id: productId,
-                product_quantity: currentQuantity
+                currentQuantity: currentQuantity // تغییر به currentQuantity برای سازگاری با داده‌های ذخیره‌شده
             });
         }
 
         // ذخیره‌سازی در localStorage
         localStorage.setItem('cart_data', JSON.stringify(cartData));
 
-        // به‌روزرسانی تعداد آیتم‌ها و رندر مجدد سبد خرید
-        updateItemCount(cartData.length);
-        renderCart();
+        // به‌روزرسانی تعداد آیتم‌ها
+        updateItemCount(cartData.reduce((acc, item) => acc + item.currentQuantity, 0));
     }
-
-    // تنظیم مقادیر اولیه موجودی‌ها در DOM
-    $('.atc-quantity-roller__quantity').each(function () {
-        let productId = $(this).data('atc-product-id');
-        let productData = cartData.find(item => item.product_id === productId);
-        let quantity = productData ? productData.currentQuantity : 0;
-        updateProductQuantity(productId, quantity);
-    });
-
-    // فراخوانی به‌روزرسانی تعداد آیتم‌ها و رندر سبد خرید در ابتدای بارگذاری
-    updateItemCount(cartData.length);
-    renderCart();
-
-    // مدیریت کلیک روی دکمه‌ها
-    $(document).on('click', '.atc-quantity-roller__button', function () {
-        let $button = $(this);
-        let productId = $button.data('atc-product-id');
-        let action = $button.data('type');
-
-        // به‌روزرسانی مقدار موجودی بر اساس عمل مورد نظر (افزایش/کاهش)
-        updateQuantity(productId, action);
-    });
 });

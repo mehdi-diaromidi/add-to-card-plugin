@@ -47,6 +47,23 @@ if (class_exists('AddToCart\Plugin')) {
 require_once  'view\front\add-to-cart-layout.php';
 // include_once  '_inc\like\add.php';
 include_once  '_inc\send_order.php';
+include_once  '_inc\create_post_type.php';
+// include(plugin_dir_path(__FILE__) . 'view\front\order-management-panel.php');
+function register_order_info_widgets($widgets_manager)
+{
+	require_once('order-info-widget.php');
+	$widgets_manager->register(new \Order_Info_Widget());
+}
+add_action('elementor/widgets/register', 'register_order_info_widgets');
+function register_order_products_widgets($widgets_manager)
+{
+	require_once('order-products-widget.php');
+	$widgets_manager->register(new \Order_Products_Widget());
+}
+
+add_action('elementor/widgets/register', 'register_order_products_widgets');
+
+
 
 register_activation_hook(__FILE__, [$the_plugin, 'activate']);
 register_deactivation_hook(__FILE__, [$the_plugin, 'deactivate']);

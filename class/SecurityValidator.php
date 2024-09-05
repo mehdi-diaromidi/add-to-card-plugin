@@ -3,11 +3,6 @@
 class SecurityValidator
 {
 
-    private static function wp_atc_empty_validator($field): bool
-    {
-        return !empty($field);
-    }
-
     private static function wp_atc_intval($field): int
     {
         return intval($field);
@@ -18,13 +13,30 @@ class SecurityValidator
         return sanitize_text_field($field);
     }
 
-    public static function wp_atc_post_user_id_validator($field): int|bool
+    private static function wp_atc_sanitize_textarea_field($str)
     {
-        if (!self::wp_atc_empty_validator($field)) {
-            return false;
-        }
+        return sanitize_textarea_field($str);
+    }
+
+    public static function wp_atc_integer_validator($field): int|bool
+    {
         return self::wp_atc_intval(self::wp_atc_sanitize_text_field($field));
     }
+
+    public static function wp_atc_string_validator($field): string
+    {
+        return self::wp_atc_sanitize_text_field($field);
+    }
+    public static function wp_atc_textarea_validator($str): string
+    {
+        return self::wp_atc_sanitize_textarea_field($str);
+    }
+
+    public static function wp_atc_phonenumber_validator($field): int
+    {
+        return self::wp_atc_intval(self::wp_atc_sanitize_text_field($field));
+    }
+
 
     public static function wp_atc_nonce_validator($nonce): bool
     {
