@@ -30,30 +30,40 @@ return array(
     ),
     'front' => array(
         'js' => array(
-            'front-js' => array(
-                'src'          => ADD_TO_CART_PLUGIN_BUILD_URL . 'js/front/front-js.js',
+            'front-menu-js' => array(
+                'src'          => ADD_TO_CART_PLUGIN_BUILD_URL . 'js/front/front-menu-js.js',
                 'dependencies' => array('jquery'),
                 'version'      => '1.0.0',
                 'in_footer'    => false,
                 'page'         => 'menu'
             ),
-            'ajax' => array(
-                'src'          => ADD_TO_CART_PLUGIN_BUILD_URL . 'js/front/ajax.js',
+            'front-cart-js' => array(
+                'src'          => ADD_TO_CART_PLUGIN_BUILD_URL . 'js/front/front-cart-js.js',
                 'dependencies' => array('jquery'),
                 'version'      => '1.0.0',
-                'in_footer'    => false,
+                'in_footer'    => true,
+                'page'         => 'customer-cart',
+            ),
+            'ajax_order' => array(
+                'src'          => ADD_TO_CART_PLUGIN_BUILD_URL . 'js/front/ajax_order.js',
+                'dependencies' => array('jquery'),
+                'version'      => '1.0.0',
+                'in_footer'    => true,
                 'page'         => 'customer-cart',
                 'localize_script' => array(
                     'atc_ajaxurl' => admin_url('admin-ajax.php'),
-                    '_atc_nonce'   => wp_create_nonce(),
-                    'atc_user_id' => get_current_user_id()
+                    '_atc_nonce'   => wp_create_nonce()
                 )
             ),
-            'customer-cart-js' => array(
-                'src'          => ADD_TO_CART_PLUGIN_BUILD_URL . 'js/front/customer-js.js',
+            'ajax_set_cart' => array(
+                'src'          => ADD_TO_CART_PLUGIN_BUILD_URL . 'js/front/ajax_set_cart.js',
                 'dependencies' => array('jquery'),
                 'version'      => '1.0.0',
                 'in_footer'    => false,
+                'localize_script' => array(
+                    'atc_ajaxurl' => admin_url('admin-ajax.php'),
+                    '_atc_nonce'   => wp_create_nonce()
+                ),
                 'page'         => 'customer-cart'
             ),
         ),

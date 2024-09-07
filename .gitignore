@@ -2,3 +2,5 @@ src/PopupRenderer.php
 vendor/
 PopupRenderer.php
 debug.log
+elementor-widgets/
+view\front\order-management-panel.php
