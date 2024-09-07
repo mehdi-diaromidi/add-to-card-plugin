@@ -7,12 +7,10 @@ class SecurityValidator
     {
         return intval($field);
     }
-
     private static function wp_atc_sanitize_text_field($field)
     {
         return sanitize_text_field($field);
     }
-
     private static function wp_atc_sanitize_textarea_field($str)
     {
         return sanitize_textarea_field($str);
@@ -36,7 +34,6 @@ class SecurityValidator
     {
         return self::wp_atc_intval(self::wp_atc_sanitize_text_field($field));
     }
-
 
     public static function wp_atc_nonce_validator($nonce): bool
     {
