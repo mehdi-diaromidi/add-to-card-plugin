@@ -1,0 +1,224 @@
+.atc-product-add-to-cart-buttons {
+    text-align: center;
+    padding: 14px 0px;
+    line-height: 0px;
+    box-sizing: border-box;
+}
+
+.atc-quantity-updator-button {
+    height: 25px;
+    width: 25px;
+    border: none;
+    border-radius: 7px;
+    text-align: center;
+    box-sizing: content-box;
+    position: relative;
+    overflow: hidden;
+    transition: all .15s ease-out;
+    background-color: #03163E14;
+    box-shadow: 2px 2px 7px 0px rgba(0, 0, 0, 0.16);
+    color: #04256B;
+    margin: 0;
+    padding: 0;
+    font-size: 12px;
+}
+
+.atc-button.atc-product-add-to-order {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0px 8px;
+    background-color: #03163E14;
+    box-shadow: 2px 2px 7px 0px rgba(0, 0, 0, 0.16);
+    border-radius: 5px;
+    font-size: 16px;
+    min-width: 106px;
+    min-height: 30px;
+    box-sizing: border-box;
+}
+
+.atc-product-add-to-order h2 {
+    color: #04256B;
+    font-family: 'Sahel';
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: -0.7px;
+}
+
+.atc-product-cards {
+    display: flex;
+    flex-direction: column;
+}
+
+#loading-message {
+    color: #2A1F19;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin: 20px;
+}
+
+
+#atc-product-list {
+    padding: 0px;
+}
+
+.atc-product-card {
+    display: flex;
+    background-color: #664C3E2B;
+    color: #04256b;
+    border-radius: 5px;
+    overflow: hidden;
+    width: 100%;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.16);
+    border: 1px solid #31241D;
+    margin-bottom: 10px;
+}
+
+.atc-product-price-info {
+    text-align: left;
+}
+
+.atc-product-column {
+    padding: 10px;
+}
+
+.atc-product-image-col {
+    flex: 30%;
+}
+
+.atc-product-info-col {
+    flex: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.atc-product-actions-col {
+    flex: 35%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.atc-product-image {
+    width: 100%;
+    display: block;
+    border-radius: 5px !important;
+    box-shadow: 2px 2px 8px 1px rgba(0, 0, 0, 0.18) !important;
+}
+
+.atc-cart-actions {
+    padding: 0px !important;
+}
+
+.atc-cart-quantity-display-quantity {
+    margin-left: -4px;
+    margin-right: -4px;
+}
+
+.atc-product-name {
+    text-align: right;
+    color: #04256b;
+    font-size: 18px;
+    line-height: 1em;
+    letter-spacing: -0.6px;
+    font-family: "Sahel", Sans-serif;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+.atc-product-price-container {
+    margin-bottom: 5px;
+}
+
+.atc-product-price {
+    font-family: "Sahel", Sans-serif;
+    font-feature-settings: "numr";
+    font-size: 15px;
+    font-weight: 600;
+    color: #06225C;
+}
+
+.atc-pmenu_product_currency {
+    font-size: 7px;
+    font-weight: 600;
+    font-family: "Sahel", Sans-serif;
+    margin-right: -2px;
+}
+
+.atc-button {
+    background-color: #c6ad8b;
+    color: #04256b;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1.3em;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+.atc-loop-increase-decrease {
+    margin-top: 5px;
+}
+
+.atc-product-add-to-cart-buttons {
+    margin-bottom: -6px;
+}
+
+#swal2-title {
+    font-family: "Sahel" !important;
+}
+
+#swal2-html-container {
+    font-family: "Sahel" !important;
+    font-feature-settings: "numr";
+}
+.atc-quantity-updator-button:hover {
+    box-shadow: none;
+}
+.atc-quantity-display-quantity {
+    padding: 5px 2px;
+    border-radius: 10px;
+    min-width: 50px;
+    text-align: center;
+    font-size: 14px;
+    font-family: "Sahel", Sans-serif !important;
+    font-feature-settings: "numr" !important;
+    font-weight: 700;
+    color: #04256B;
+}
+
+@keyframes smooth-shake {
+    0% {
+        transform: translateX(0);
+    }
+
+    20% {
+        transform: translateX(-3px);
+    }
+
+    40% {
+        transform: translateX(3px);
+    }
+
+    60% {
+        transform: translateX(-3px);
+    }
+
+    80% {
+        transform: translateX(3px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+.smooth-shake {
+    animation: smooth-shake 0.6s ease-in-out;
+}
